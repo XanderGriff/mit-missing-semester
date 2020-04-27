@@ -1,0 +1,51 @@
+- #[[Missing Semester]] #Lecture
+- **Link**: https://missing.csail.mit.edu/2020/data-wrangling/
+- **Notes**
+    - Lecture Topics:
+        - Job control
+        - Terminal Multiplexers
+        - Dot Files
+        - Working with remote machines
+    - `sleep` waits for a given number of seconds
+    - When we type `^C`, it sends a signal called `SIGINT`
+        - There are way more signals. To find more, type `man signal` and scroll down to the signal descriptions
+        - `SIGQUIT` is another one to be familiar with - similar to `SIGINT`
+            - sent with `^\`
+        - `SIGHUP` gets sent if there's still processes going on in the background when you close a terminal
+        - `SIGSTOP` (`^Z`) will pause a program until `SIGCONT` is sent
+        - `SIGKILL` cannot be captured by another process
+    - Adding an `&` to the end of a terminal command will run the command in the background
+        - Both suspended and running jobs can be enumerated using the `jobs` command
+        - To persist a job in case you close your terminal, prefix your commands with `nohup`
+        - To restart a suspended job, you can list all jobs and then use `bg %#` to restart the job that the `#` refers to in the jobs list
+        - To terminate a job, you can use `kill %#`
+        - To pause/suspend a job, you can use `kill -STOP %#`
+    - Tmux is a terminal multiplexer that allows for convenient window manangement. Also convenient because it allows you to avoid using `nohup` hacks
+    - Tmux has 3 main concepts:
+        - Sessions
+            - An independent workspace containing one or more windows. Kinda like a VSCode window
+        - Windows
+            - Kind of like a tab, can be swapped between in a given session. Visually separate parts of the same session
+        - Panes
+            - Like vim splits, multiple shells in the same display
+    - Tmux __Session__ Commands:
+        - To start a tmux session, just type `tmux` in the terminal
+        - To start a new named session, run `tmux new -s NAME`
+        - To list current sessions, run `tmux ls`
+        - To attach to the most recent session, run `tmux a`
+            - To attach to another session from the `ls`, run `tmux a -t x` where `x` is the number or name of the session
+        - All tmux commands take the form of `^b x` where x is the command. Similar to VSCode chords with `Cmd-K`
+    - Tmux __Window__ Commands (prefixed by `^b`)
+        - `c` creates a new window. To close the window, terminate using `^d`.
+        - `N` Go to the __N__th window
+        - `n` Go to the next window
+        - `p` Go to the previous window
+        - `,` Rename the current window
+        - `w` List current windows
+    - Tmux __Pane__ Commands
+        - `"` Split the pane with a horizontal line
+        - `%`Split the pane with a vertical line
+        - `<arrow key>` Move to the pane in the direction of the key pressed
+        - `z` toggle zoom for current pane between split and full-screen
+        - `space` rearranges the panes
+    - 
