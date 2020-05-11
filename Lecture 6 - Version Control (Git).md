@@ -52,4 +52,12 @@ def load(id):
             - tldr:
                 - Write commits like an email. First line (<50chars) should be the subject and rest of the message below (<72chars, preceded by an empty line)
         - [here](https://vi.stackexchange.com/questions/15139/strange-highlighting-during-git-commit) is an interesting thread explaining why some weird syntax highlighting happens in vim when you're writing commit messages
+    - `git log` shows your git history
+        - By default, it shows the flattened view, which is somewhat confusing given the data structure that underlies Git not being flat, so `git log --all --graph --decorate` does a much better job here
+        - `git log --help` will explain the flags as well as provide more context on other possible flags
+    - `git checkout` allows you to move `HEAD` to wherever you specify and changes the contents of your repository to match the snapshot of that hash location
+        - This can be dangerous because it has the potential to throw away changes, but by default it will warn you if you're going to do that. To override those warnings, use `git checkout -f` (or force)
+    - `git diff` shows you the difference between your current state and another commit. 
+        - By default, it will show you the difference between your current state and `HEAD`, but you can specify other commit hashes
+        - You can also `diff` only on a given file by supplying it at the end of you `git diff` statement
     - 
