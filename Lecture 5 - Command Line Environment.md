@@ -6,46 +6,92 @@
         - Terminal Multiplexers
         - Dot Files
         - Working with remote machines
-    - `sleep` waits for a given number of seconds
-    - When we type `^C`, it sends a signal called `SIGINT`
-        - There are way more signals. To find more, type `man signal` and scroll down to the signal descriptions
-        - `SIGQUIT` is another one to be familiar with - similar to `SIGINT`
-            - sent with `^\`
-        - `SIGHUP` gets sent if there's still processes going on in the background when you close a terminal
-        - `SIGSTOP` (`^Z`) will pause a program until `SIGCONT` is sent
-        - `SIGKILL` cannot be captured by another process
-    - Adding an `&` to the end of a terminal command will run the command in the background
-        - Both suspended and running jobs can be enumerated using the `jobs` command
-        - To persist a job in case you close your terminal, prefix your commands with `nohup`
-        - To restart a suspended job, you can list all jobs and then use `bg %#` to restart the job that the `#` refers to in the jobs list
-        - To terminate a job, you can use `kill %#`
-        - To pause/suspend a job, you can use `kill -STOP %#`
-    - Tmux is a terminal multiplexer that allows for convenient window manangement. Also convenient because it allows you to avoid using `nohup` hacks
-    - Tmux has 3 main concepts:
-        - Sessions
-            - An independent workspace containing one or more windows. Kinda like a VSCode window
-        - Windows
-            - Kind of like a tab, can be swapped between in a given session. Visually separate parts of the same session
-        - Panes
-            - Like vim splits, multiple shells in the same display
-    - Tmux __Session__ Commands:
-        - To start a tmux session, just type `tmux` in the terminal
-        - To start a new named session, run `tmux new -s NAME`
-        - To list current sessions, run `tmux ls`
-        - To attach to the most recent session, run `tmux a`
-            - To attach to another session from the `ls`, run `tmux a -t x` where `x` is the number or name of the session
-        - All tmux commands take the form of `^b x` where x is the command. Similar to VSCode chords with `Cmd-K`
-    - Tmux __Window__ Commands (prefixed by `^b`)
-        - `c` creates a new window. To close the window, terminate using `^d`.
-        - `N` Go to the __N__th window
-        - `n` Go to the next window
-        - `p` Go to the previous window
-        - `,` Rename the current window
-        - `w` List current windows
-    - Tmux __Pane__ Commands
-        - `"` Split the pane with a horizontal line
-        - `%`Split the pane with a vertical line
-        - `<arrow key>` Move to the pane in the direction of the key pressed
-        - `z` toggle zoom for current pane between split and full-screen
-        - `space` rearranges the panes
-    - 
+    - __Job Control:__
+        - `sleep` waits for a given number of seconds
+        - When we type `^C`, it sends a signal called `SIGINT`
+            - There are way more signals. To find more, type `man signal` and scroll down to the signal descriptions
+            - `SIGQUIT` is another one to be familiar with - similar to `SIGINT`
+                - sent with `^\`
+            - `SIGHUP` gets sent if there's still processes going on in the background when you close a terminal
+            - `SIGSTOP` (`^Z`) will pause a program until `SIGCONT` is sent
+            - `SIGKILL` cannot be captured by another process
+        - Adding an `&` to the end of a terminal command will run the command in the background
+            - Both suspended and running jobs can be enumerated using the `jobs` command
+            - To persist a job in case you close your terminal, prefix your commands with `nohup`
+            - To restart a suspended job, you can list all jobs and then use `bg %#` to restart the job that the `#` refers to in the jobs list
+            - To terminate a job, you can use `kill %#`
+            - To pause/suspend a job, you can use `kill -STOP %#`
+    - __Terminal Multiplexers:__
+        - Tmux is a terminal multiplexer that allows for convenient window manangement. Also convenient because it allows you to avoid using `nohup` hacks
+        - Tmux has 3 main concepts:
+            - Sessions
+                - An independent workspace containing one or more windows. Kinda like a VSCode window
+            - Windows
+                - Kind of like a tab, can be swapped between in a given session. Visually separate parts of the same session
+            - Panes
+                - Like vim splits, multiple shells in the same display
+        - Tmux __Session__ Commands:
+            - To start a tmux session, just type `tmux` in the terminal
+            - To start a new named session, run `tmux new -s NAME`
+            - To list current sessions, run `tmux ls`
+            - To attach to the most recent session, run `tmux a`
+                - To attach to another session from the `ls`, run `tmux a -t x` where `x` is the number or name of the session
+            - All tmux commands take the form of `^b x` where x is the command. Similar to VSCode chords with `Cmd-K`
+        - Tmux __Window__ Commands (prefixed by `^b`)
+            - `c` creates a new window. To close the window, terminate using `^d`.
+            - `N` Go to the __N__th window
+            - `n` Go to the next window
+            - `p` Go to the previous window
+            - `,` Rename the current window
+            - `w` List current windows
+        - Tmux __Pane__ Commands
+            - `"` Split the pane with a horizontal line
+            - `%`Split the pane with a vertical line
+            - `<arrow key>` Move to the pane in the direction of the key pressed
+            - `z` toggle zoom for current pane between split and full-screen
+            - `space` rearranges the panes
+    - __Dot Files:__
+        - Aliases take the form of `alias alias_name="command of alias arg1 arg2"`
+            - They provide useful shortcuts for long and reused commands
+            - The can also be used to overwrite existing commands and save you from common mistypes
+            - They are composable
+        - To inspect the alias, just type `alias alias_name`
+        - You can a whole bunch of utilities and customizations (including the aforementioned aliases) to your terminal bootup using dotfiles
+            - good dotfile resources can be found [here](https://github.com/mathiasbynens/dotfiles) and [here](https://dotfiles.github.io/)
+    - __Remote Machines:__
+        - SSH stands for Secure SHell
+        - To ssh into a server, you use `ssh foo@bar.mit.edu`
+            - In this command, `foo` is the user and `bar.mit.edu` is the server (or host)
+            - the server can also be specified using an IP address
+            - It's often overlooked that you can actually run commands remotely using just ssh:
+                - eg. `ssh foobar@server ls` will execute ls in the home folder of foobar
+        - A private ssh key is basically the password to your server
+            - To generate a key, use `ssh-keygen -o -a 100 -t ed25519 -f ~/.ssh/ed_ed25519`
+                - the `-a` designates how many rounds of some cryptographic process are applied during the key generation. Higher number means it takes more time to generate, but is more secure.
+                - the `-t` designates the kind of cryptographic algorithm being used
+                - the `-f` is the filename or path to the key
+            - To check if you already have a passphrase, run `ssh-keygen -y -f /path/to/key`
+        - `ssh` looks into `.ssh.authorized_keys` to determine whcih clients it should let in. To copy a public key over you can use: ```cat .ssh/id_ed25519.pub | ssh user@hostname 'cat >> ~/.ssh/authorized_keys'```
+            - `ssh-copy-id` will do something similar more simply
+        - Copying files over SSH:
+            - 1. Use `ssh` and `tee` (which writes whatever's in STDIN to a file)
+                - `cat localfile | ssh remote_Server tee serverfile`
+            - 2. `scp` (secure copy) works better for large amounts of files or directories because it can easily handle recursive paths
+                - `scp path/to/local_file remote_host:path/to/remote_file`
+            - 3. `rsync` improves on `scp` by detecting identical files in local and remote and preventing copying them again, but maybe not as simple
+        - Port forwarding allows you to send information from a local port on a remote host to a specified port on your local host, among other use cases.
+            - ![image](https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Fxander%2FDShLRTL4y9.png_?alt=media&token=db3f1e5f-a7e1-4eb9-9152-78ce2a94d9ca)
+            - Common scenario involves mapping a processing running on a remote port to a local port on your computer. Done via: `ssh -L LOCALPORT:localhost:REMOTEPORT`
+            - An excellent resource on various uses of `ssh` for port forwarding can be found [here](https://unix.stackexchange.com/questions/115897/whats-ssh-port-forwarding-and-whats-the-difference-between-ssh-local-and-remot)
+        - While it might be tempting to use shell aliases, as we learned above in our dotfiles section, there's a better way to do it using `~/.ssh/config`
+            - Below is an example using port forwarding, which could be useful especially if you're forwarding to another host from your remote host (jumpbox model)
+            - ```Host vm
+    User foobar
+    HostName 172.16.174.141
+    Port 2222
+    IdentityFile ~/.ssh/id_ed25519
+    LocalForward 9999 localhost:8888
+
+# Configs can also take wildcards
+Host *.mit.edu
+    User foobaz```
